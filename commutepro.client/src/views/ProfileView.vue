@@ -169,6 +169,11 @@
         />
         <SettingsRow icon="Shield" label="Privacy Policy" @click="showPrivacy" />
         <SettingsRow icon="FileText" label="Terms of Service" @click="showTerms" />
+         <TermsModal 
+    :show="showTermsModal" 
+    :showAccept="false"
+    @close="showTermsModal = false"
+  />
       </div>
 
       <!-- Sign Out Button -->
@@ -214,6 +219,7 @@ import favouritesService from "@/services/api/favourites.service";
 import alertsService from "@/services/api/alerts.service";
 import SectionHeader from "@/components/SectionHeader.vue";
 import SettingsRow from "@/components/SettingsRow.vue";
+import TermsModal from "@/components/TermsModal.vue";
 import ToggleSwitch from "@/components/ToggleSwitch.vue";
 
 const router = useRouter();
@@ -221,6 +227,7 @@ const toast = useToast();
 const authStore = useAuthStore();
 
 // State
+const showTermsModal = ref(false);
 const favouriteCount = ref(0);
 const alertCount = ref(0);
 const notifications = ref({
@@ -287,6 +294,9 @@ const saveNotifications = () => {
   toast.success("Notification preferences saved");
 };
 
+const showTerms = () => {
+  showTermsModal.value = true;
+};
 // Save all preferences
 const savePreferences = () => {
   const prefs = {
@@ -345,9 +355,9 @@ const showPrivacy = () => {
   window.open("https://example.com/privacy", "_blank");
 };
 
-const showTerms = () => {
-  window.open("https://example.com/terms", "_blank");
-};
+// const showTerms = () => {
+//   window.open("https://example.com/terms", "_blank");
+// };
 
 const handleLogout = () => {
   authStore.logout();

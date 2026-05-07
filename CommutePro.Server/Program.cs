@@ -145,11 +145,7 @@ try
 
     var app = builder.Build();
 
-    if (args.Length > 0 && args[0] == "train-model")
-    {
-        ModelTrainer.TrainAndSaveModel();
-        return;
-    }
+
 
     _ = Task.Run(async () =>
     {

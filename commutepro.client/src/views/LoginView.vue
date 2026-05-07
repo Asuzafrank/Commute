@@ -105,23 +105,7 @@
 
         <!-- Register Form -->
         <form v-else key="register" @submit.prevent="handleRegister" class="space-y-3">
-          <div>
-            <input
-              v-model="registerForm.name"
-              type="text"
-              required
-              class="w-full px-4 py-3 rounded-xl text-white text-sm font-manrope outline-none transition-all"
-              :style="{
-                background: '#354F5C',
-                border: `1px solid ${registerErrors.name ? '#E63946' : '#3D5A68'}`,
-                caretColor: '#FFFFFF',
-              }"
-              placeholder="Full Name"
-            />
-            <p v-if="registerErrors.name" class="text-red-400 text-[10px] font-manrope mt-1">
-              {{ registerErrors.name }}
-            </p>
-          </div>
+         
 
           <div>
             <input
@@ -234,15 +218,22 @@
           </button>
         </form>
       </Transition>
+      <TermsModal 
+  :show="showTermsModal" 
+  :showAccept="true"
+  @close="showTermsModal = false"
+  @accept="acceptTerms"
+/>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import { Eye, EyeOff, AlertCircle, Check, X } from "lucide-vue-next";
+import TermsModal from '@/components/TermsModal.vue';
 import { useAuthStore } from "@/stores/auth.store";
 import PasswordStrengthBar from "@/components/PasswordStrengthBar.vue";
 import GoogleIcon from "@/components/icons/GoogleIcon.vue";
@@ -257,6 +248,8 @@ const modes = [
   { value: "login", label: "Sign In" },
   { value: "signup", label: "Sign Up" },
 ];
+const showTermsModal = ref(false);
+const hasAcceptedTerms = ref(false);
 
 // Login
 const loginForm = ref({ email: "", password: "" });
@@ -265,7 +258,7 @@ const loginError = ref("");
 const loading = ref(false);
 
 // Register
-const registerForm = ref({ name: "", email: "", password: "", userName: "" });
+const registerForm = ref({ email: "", password: "", userName: "" });
 const showRegisterPassword = ref(false);
 const registerErrors = ref({});
 const agreeTerms = ref(false);
@@ -294,7 +287,7 @@ const handleLogin = async () => {
 
 const handleRegister = async () => {
   registerErrors.value = {};
-  if (!registerForm.value.name) registerErrors.value.name = "Name required";
+  
   if (!registerForm.value.email || !/\S+@\S+\.\S+/.test(registerForm.value.email)) {
     registerErrors.value.email = "Valid email required";
   }
@@ -304,6 +297,10 @@ const handleRegister = async () => {
   if (usernameStatus.value !== "available") {
     registerErrors.value.userName = "Choose an available username";
   }
+  
+if (registerForm.value.userName.length < 3) {
+  registerErrors.value.userName = "Username must be at least 3 characters";
+}
   if (!agreeTerms.value) registerErrors.value.terms = "Accept terms to continue";
 
   if (Object.keys(registerErrors.value).length > 0) return;
@@ -318,7 +315,7 @@ const handleRegister = async () => {
     if (result.success) {
       toast.success("Account created! Please login.");
       activeMode.value = "login";
-      registerForm.value = { name: "", email: "", password: "", userName: "" };
+      registerForm.value = {email: "", password: "", userName: "" };
     } else {
       toast.error(result.message || "Registration failed");
     }
@@ -329,6 +326,19 @@ const handleRegister = async () => {
   }
 };
 
+// Check if user has accepted terms
+const checkTermsAcceptance = () => {
+  const accepted = localStorage.getItem('commutepro_terms_accepted');
+  if (!accepted) {
+    showTermsModal.value = true;
+  }
+};
+
+const acceptTerms = () => {
+  localStorage.setItem('commutepro_terms_accepted', new Date().toISOString());
+  hasAcceptedTerms.value = true;
+  showTermsModal.value = false;
+};
 const checkUsernameAvailability = () => {
   const username = registerForm.value.userName;
   if (username.length < 3) {
@@ -354,6 +364,10 @@ const getUsernameBorderColor = () => {
   if (registerErrors.value.userName) return "#E63946";
   return "#3D5A68";
 };
+
+onMounted(() => {
+  checkTermsAcceptance();
+});
 </script>
 
 <style scoped>
