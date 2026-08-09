@@ -1,15 +1,18 @@
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import path from 'path';
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/',  // or '/subpath/' if hosted in a subdirectory
+
+  base: '/',
+
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
   },
+
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -25,6 +28,7 @@ export default defineConfig({
       }
     }
   },
+
   server: {
     port: 3000,
     host: true
