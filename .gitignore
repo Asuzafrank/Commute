@@ -156,6 +156,7 @@ BenchmarkDotNet.Artifacts/
 
 # Connection strings
 secrets.json
+CommutePro.Server/appsettings.json
 appsettings.Development.json
 appsettings.Local.json
 
