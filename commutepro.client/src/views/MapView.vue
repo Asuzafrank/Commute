@@ -108,7 +108,7 @@ const initMap = () => {
 // Fetch vehicles from API
 const fetchVehicles = async () => {
   try {
-    const response = await fetch("https://localhost:7213/api/vehicles");
+    const response = await fetch("https://commute-wlkb.onrender.com/api/vehicles");
     const data = await response.json();
 
     console.log("Vehicles API response:", data);
