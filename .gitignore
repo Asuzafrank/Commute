@@ -127,6 +127,8 @@ logs/
 temp/
 tmp/
 *.tmp
+*.dump
+*.backup
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
