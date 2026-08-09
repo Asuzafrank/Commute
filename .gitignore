@@ -121,7 +121,7 @@ coverage/
 logs/
 *.log
 *.htm
-*.html
+
 
 # Temp files
 temp/
