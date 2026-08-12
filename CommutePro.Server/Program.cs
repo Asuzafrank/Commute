@@ -223,7 +223,7 @@ try
 
     app.MapControllers();
     app.MapHub<RealtimeHub>("/realtimeHub");
-    //app.MapFallbackToFile("/index.html");
+   // app.MapFallbackToFile("/index.html");
     
 
     app.Run();

@@ -297,7 +297,7 @@ import { useAuthStore } from "@/stores/auth.store";
 import favouritesService from "@/services/api/favourites.service";
 import arrivalsService from "@/services/api/arrivals.service";
 import alertsService from "@/services/api/alerts.service";
-import LineChip from ".../components/LineChip.vue"
+import LineChip from "@/components/LineChip.vue";
 import CountdownTimer from "@/components/CountdownTimer.vue";
 
 const router = useRouter();
