@@ -217,13 +217,13 @@ try
        
     }
 
-    app.UseHttpsRedirection();
+   //app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();
     app.MapHub<RealtimeHub>("/realtimeHub");
-    app.MapFallbackToFile("/index.html");
+    //app.MapFallbackToFile("/index.html");
     
 
     app.Run();
