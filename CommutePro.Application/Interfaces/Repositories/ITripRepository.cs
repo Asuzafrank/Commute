@@ -1,4 +1,5 @@
-﻿using CommutePro.Application.Interfaces.BaseRepository;
+﻿using CommutePro.Application.DTOs.Trips;
+using CommutePro.Application.Interfaces.BaseRepository;
 using CommutePro.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,9 @@ namespace CommutePro.Application.Interfaces.Repositories
         Task<Trip?> GetWithStopTimesAsync(string tripId, CancellationToken cancellationToken = default);
         Task<List<Trip>> GetActiveTripsForDateAsync(DateTime date, CancellationToken cancellationToken = default);
         Task<Trip?> GetTripWithDetailsAsync(string tripId, CancellationToken cancellationToken = default);
+        Task<List<DirectTripMatch>> FindDirectTripsAsync(
+            string fromStopId,
+            string toStopId,
+            CancellationToken cancellationToken = default);
     }
 }

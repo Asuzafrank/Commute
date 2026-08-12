@@ -15,6 +15,9 @@ import ProfileView from "@/views/ProfileView.vue";
 import TripDetailsView from "@/views/TripDetailsView.vue";
 import FavouritesView from "@/views/FavouritesView.vue";
 import MapView from "@/views/MapView.vue";
+import NearbyStationsView from "@/views/NearbyStationsView.vue";
+
+import TripPlannerView from "@/views/TripPlannerView.vue";
 
 // Route guard - requires authentication
 const requireAuth = (to, from, next) => {
@@ -57,6 +60,19 @@ const routes = [
         component: StationDetailsView,
         props: true,
         meta: { title: "Station Details" },
+      },
+
+      {
+     path: "trip-planner",
+     name: "TripPlanner",
+     component: TripPlannerView,
+     meta: { title: "Plan a Trip" },
+      },
+      {
+        path: "nearby",
+        name: "NearbyStations",
+        component: NearbyStationsView,
+        meta: { title: "Nearby Stations" },
       },
       {
         path: "/forgot-password",

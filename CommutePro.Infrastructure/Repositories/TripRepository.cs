@@ -1,4 +1,5 @@
-﻿using CommutePro.Application.Interfaces.Repositories;
+﻿using CommutePro.Application.DTOs.Trips;
+using CommutePro.Application.Interfaces.Repositories;
 using CommutePro.Domain.Entities;
 using CommutePro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +68,27 @@ namespace CommutePro.Infrastructure.Repositories
                .Include(t => t.Route)  // Avoids second query for routes
                .AsNoTracking()          // Read-only, better performance
                .ToListAsync(cancellationToken);
+        }
+        public async Task<List<DirectTripMatch>> FindDirectTripsAsync(string fromStopId, string toStopId, CancellationToken cancellationToken = default)
+        {
+            var stopTimes = _context.StopTimes.AsQueryable();
+
+            var directTrips = await stopTimes
+                .Where(st => st.StopId == fromStopId)
+                .SelectMany(st => stopTimes
+                    .Where(st2 => st2.StopId == toStopId
+                        && st2.TripId == st.TripId
+                        && st2.StopSequence > st.StopSequence)
+                    .Select(st2 => new DirectTripMatch
+                    {
+                        Trip = st.Trip!,
+                        FromStopTime = st,
+                        ToStopTime = st2,
+                        Route = st.Trip!.Route
+                    }))
+                .ToListAsync(cancellationToken);
+
+            return directTrips;
         }
     }
 }

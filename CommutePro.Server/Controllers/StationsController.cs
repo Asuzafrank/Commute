@@ -80,14 +80,22 @@ namespace CommutePro.Api.Controllers
         /// <param name="limit">Maximum number of results (default 20)</param>
         [HttpGet("nearby")]
         [ProducesResponseType(StatusCodes.Status501NotImplemented)]
-        public IActionResult GetNearbyStations(
+        public async Task<IActionResult> GetNearbyStations(
             [FromQuery] decimal lat,
             [FromQuery] decimal lon,
             [FromQuery] int radius = 1000,
             [FromQuery] int limit = 20)
         {
-            // TODO: Implement nearby stations using PostGIS when ready
-            return StatusCode(501, new { message = "Nearby stations feature coming soon" });
+            var query = new GetNearbyStationsQuery
+            {
+                Latitude = lat,
+                Longitude = lon,
+                RadiusMeters = radius,
+                MaxResults = limit
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
         /// <summary>

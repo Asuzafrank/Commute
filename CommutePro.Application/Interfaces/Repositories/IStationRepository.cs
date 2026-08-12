@@ -14,5 +14,6 @@ namespace CommutePro.Application.Interfaces.Repositories
         Task<Stop?> GetByPlatformCodeAsync(string platformCode, CancellationToken cancellationToken = default);
         Task<List<Stop>> GetStationsOnlyAsync(CancellationToken cancellationToken = default);
         Task<Stop?> GetWithStopTimesAsync(string stopId, CancellationToken cancellationToken = default);
+        Task<List<Stop>> GetAllStationsWithCoordinatesAsync(CancellationToken cancellationToken = default);
     }
 }

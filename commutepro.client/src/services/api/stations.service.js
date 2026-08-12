@@ -26,6 +26,12 @@ const stationsService = {
     const response = await apiClient.get(`/stations/${stopId}`);
     return response.data;
   },
+  async getNearby(lat,lon, radius = 1000, limit = 20) {
+    const response = await apiClient.get("/stations/nearby", {
+      params: { lat, lon, radius, limit },
+    });
+    return response.data;
+  }
 };
 
 export default stationsService;

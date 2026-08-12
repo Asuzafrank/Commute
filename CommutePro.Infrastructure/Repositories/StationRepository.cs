@@ -43,5 +43,11 @@ namespace CommutePro.Infrastructure.Repositories
                 .Include(s => s.StopTimes)
                 .FirstOrDefaultAsync(s => s.StopId == stopId, cancellationToken);
         }
+        public async Task<List<Stop>> GetAllStationsWithCoordinatesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Stops
+                .Where(s => s.LocationType == 1 && s.StopLat.HasValue && s.StopLon.HasValue)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

@@ -35,5 +35,23 @@ namespace CommutePro.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("plan-direct")]
+        [ProducesResponseType(typeof(BaseResponse<TripPlanResponse>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> PlanDirectTrip(
+       [FromQuery] string from,
+       [FromQuery] string to,
+       [FromQuery] DateTime? departureTime = null)
+        {
+            var query = new PlanDirectTripQuery
+            {
+                FromStopId = from,
+                ToStopId = to,
+                DepartureTime = departureTime ?? DateTime.Now
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

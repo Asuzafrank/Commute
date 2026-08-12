@@ -193,7 +193,7 @@
       </div>
 
       <!-- Search bar -->
-      <div class="px-5 mb-6">
+      <div class="px-5 mb-6 flex gap-3">
         <button
           @click="goToSearch"
           class="w-full flex items-center gap-3 rounded-xl p-3.5 text-left cursor-pointer"
@@ -202,6 +202,27 @@
           <Search size="18" color="#4A6478" />
           <span class="text-gray-500 text-sm font-manrope">Search for a station…</span>
         </button>
+        <router-link
+          to="/nearby"
+          class="w-12 rounded-xl flex items-center justify-center cursor-pointer"
+          style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08)"
+        >
+          <Navigation size="20" color="#4A6478" />
+        </router-link>
+      </div>
+      <div class="px-5 mb-6">
+        <router-link
+          to="/trip-planner"
+          class="w-full flex items-center justify-center gap-2 rounded-xl p-3.5 cursor-pointer transition-all hover:bg-white/5"
+          style="
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+          "
+        >
+          <MapPin size="18" />
+          <span class="text-gray-500 text-sm font-manrope">Plan a Trip</span>
+        </router-link>
       </div>
 
       <!-- Recent alerts -->
@@ -268,13 +289,15 @@ import {
   AlertTriangle,
   RefreshCw,
   Bell,
+  MapPin,
   Map,
+  Navigation,
 } from "lucide-vue-next";
 import { useAuthStore } from "@/stores/auth.store";
 import favouritesService from "@/services/api/favourites.service";
 import arrivalsService from "@/services/api/arrivals.service";
 import alertsService from "@/services/api/alerts.service";
-import LineChip from "@/components/LineChip.vue";
+import LineChip from ".../components/LineChip.vue"
 import CountdownTimer from "@/components/CountdownTimer.vue";
 
 const router = useRouter();
